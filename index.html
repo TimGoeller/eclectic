@@ -5,7 +5,64 @@
     <script src="edge.js"></script>
     <script src="graph.js"></script>
     <script src="electic.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "Source Sans Pro";
+        color: white;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h1 {
+        font-family: "Source Sans Pro";
+        text-decoration: underline;
+        color: white;
+        margin: 10 0 10 0;
+      }
+      h2 {
+        font-family: "Source Sans Pro";
+        text-decoration: underline;
+        color: white;
+        margin: 5 0 5 0;
+      }
+      #defaultCanvas0 {
+        position: absolute;
+      }
+      #menu {
+        height: 500px;
+        width: 300px;
+        background-color: #5c7498f2;
+        z-index: 1;
+        border-radius: 3px;
+        padding: 10px;
+      }
+      #drop-zone {
+        width: 100%;
+        height: 40px;
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #drop-zone span {
+        color: black;
+      }
+    </style>
   </head>
   <body>
+    <div id="menu">
+      <h1>Controls</h1>
+      <h2>Load Graph</h2>
+      <div id="drop-zone"><span>Drop here</span></div>
+      <h2>Something else</h2>
+    </div>
   </body>
 </html>
