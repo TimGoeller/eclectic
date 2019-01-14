@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+* {
+  box-sizing: inherit;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Source Sans Pro";
+  color: white;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: row-reverse;
+}
+
+hr{
+  margin: 10px 0 0 0;
+}
+
+h1 {
+  font-family: "Source Sans Pro";
+  text-decoration: underline;
+  color: white;
+  margin: 10 0 10 0;
+}
+
+h2 {
+  font-family: "Source Sans Pro";
+  text-decoration: underline;
+  color: white;
+  margin: 5 0 5 0;
+}
+
+#defaultCanvas0{
+  position: absolute;
+}
+
+#menu {
+  height: auto;
+  width: 80px;
+  background-color: #5c749885;
+  z-index: 1;
+  border-radius: 3px 0 0 3px;
+  padding: 5px;
+  overflow: hidden;
+  user-select: none;
+}
+
+#menu ul {
+  list-style: none;
+  width: 70px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+#menu ul li {
+  height: 60px;
+  width: 60px;
+  margin: 10px 0px 20px 0px;
+  padding: 5px;
+}
+
+#menu ul li i {
+  font-size: 60px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: center center;
+}
+
+#menu ul li i:hover {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+#drop-zone {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  border: 4px dashed white;
+  border-radius: 10px;
+  transition: all 0.1s;
+  color: white;
+}
+#drop-zone:hover {
+  width: 62px;
+  height: 62px;
+  margin: -1px;
+}
+#drop-zone i {
+  font-size: 50px;
+}
