@@ -1,6 +1,7 @@
 var graph;
 
 function setup() {
+  background(0);
   createCanvas(windowWidth, windowHeight);
 }
 
@@ -9,7 +10,7 @@ function windowResized() {
 }
 
 function draw() {
-  background(255);
+  background(0);
 }
 
 function createGraphFromTxt(text) {
