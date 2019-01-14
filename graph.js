@@ -21,7 +21,7 @@ function Graph() {
 
   this.getEdge = function(id) {};
 
-  this.retrieveEdgeByVertice = function(vertexA, vertexB) {};
+  this.retrieveEdgeByVertices = function(vertexA, vertexB) {};
 
   /* Requests */
 
