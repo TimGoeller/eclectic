@@ -1,7 +1,12 @@
 var graph;
+var vertex, vertex2;
 
 function setup() {
-  background(0);
+  vertex1 = new Vertex( windowWidth/2, windowHeight/2, "2" );
+  vertex2 = new Vertex( windowWidth/4, windowHeight/4, "1" );
+  edge = new Edge( vertex1, vertex2, 2 );
+  background(54, 55, 50);
+  vertex1.show();
   createCanvas(windowWidth, windowHeight);
 }
 
@@ -10,7 +15,10 @@ function windowResized() {
 }
 
 function draw() {
-  background(0);
+  background(54, 55, 50);
+  edge.show();
+  vertex1.show();
+  vertex2.show();
 }
 
 function createGraphFromTxt(text) {

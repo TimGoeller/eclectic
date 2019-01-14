@@ -26,14 +26,14 @@ hr{
 h1 {
   font-family: "Source Sans Pro";
   text-decoration: underline;
-  color: white;
+  color: #DCE1E9;
   margin: 10 0 10 0;
 }
 
 h2 {
   font-family: "Source Sans Pro";
   text-decoration: underline;
-  color: white;
+  color: #DCE1E9;
   margin: 5 0 5 0;
 }
 
@@ -44,7 +44,7 @@ h2 {
 #menu {
   height: auto;
   width: 80px;
-  background-color: #5c749885;
+  background-color: rgba(102,195,255);
   z-index: 1;
   border-radius: 3px 0 0 3px;
   padding: 5px;
@@ -89,7 +89,7 @@ h2 {
   border: 4px dashed white;
   border-radius: 10px;
   transition: all 0.1s;
-  color: white;
+  color: #DCE1E9;
 }
 #drop-zone:hover {
   width: 62px;
