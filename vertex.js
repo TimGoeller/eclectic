@@ -2,10 +2,10 @@ function Vertex(x = 0, y = 0, value = "") {
   this.position = createVector(x, y);
 
   this.show = function() {
-    stroke(83,216,251);
+    stroke(83, 216, 251);
     fill("#DCE1E9");
 
-    strokeWeight(SIZE/10);
+    strokeWeight(SIZE / 10);
     ellipse(this.position.x, this.position.y, SIZE);
 
     /* Text with value */
@@ -14,6 +14,6 @@ function Vertex(x = 0, y = 0, value = "") {
     strokeWeight(1);
     textSize(SIZE / 2);
     textAlign(CENTER, CENTER);
-    text(value, this.position.x, this.position.y + SIZE/20);
+    text(value, this.position.x, this.position.y + SIZE / 20);
   };
 }

@@ -1,42 +1,37 @@
-var SIZE = 40;
+var SIZE = 10;
 
 var graph;
 var vertex1, vertex2;
 
 function setup() {
-  vertex1 = new Vertex( windowWidth/2, windowHeight/2, "2" );
-  vertex2 = new Vertex( windowWidth/4, windowHeight/4, "1" );
-  edge = new Edge( vertex1, vertex2, 2 );
+  graph = new Graph();
 
-  createCanvas( windowWidth, windowHeight );
-  background( 54, 55, 50 );
-  rectMode( CENTER );
+  createCanvas(windowWidth, windowHeight);
+  background(54, 55, 50);
+  rectMode(CENTER);
+  graph.show();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  background(54, 55, 50);
+  graph.show();
 }
 
 function draw() {
-  background(54, 55, 50);
-  edge.show();
-  vertex1.show();
-  vertex2.show();
+  //background(54, 55, 50);
 }
 
-function startDijkstraAlgorithmOnCurrentGraph()
-{
-  alert( "Dijkstra!" );
+function startDijkstraAlgorithmOnCurrentGraph() {
+  alert("Dijkstra!");
 }
 
-function startAStarAlgorithmOnCurrentGraph()
-{
-  alert( "A Star" );
+function startAStarAlgorithmOnCurrentGraph() {
+  alert("A Star");
 }
 
-function exportToPNG()
-{
-  alert( "Save as PNG" )
+function exportToPNG() {
+  alert("Save as PNG");
 }
 
 function createGraphFromTxt(text) {
@@ -59,21 +54,19 @@ function createGraphFromTxt(text) {
 
   vertices.forEach(function(vertexString) {
     let vertexInformation = vertexString.split(" ");
-    graph.addVertex(
-      vertexInformation[0],
-      vertexInformation[1],
-      vertexInformation[2]
-    );
+    graph.addVertex(new Vertex(vertexInformation[1], vertexInformation[2]));
   });
 
   edges.forEach(function(edgeString) {
     let edgeInformation = edgeString.split(" ");
-    graph.addVertex(
-      edgeInformation[0], 
-      edgeInformation[1], 
-      edgeInformation[2]
+    graph.addEdge(
+      new Edge(
+        graph.getVertex(edgeInformation[1]),
+        graph.getVertex(edgeInformation[2])
+      )
     );
   });
+  graph.show();
 }
 
 window.onload = function() {
