@@ -1,15 +1,22 @@
-var SIZE = 10;
+const SIZE = 40;
+var zoom = 1;
+
+var translateVector;
 
 var graph;
 var vertex1, vertex2;
 
+var wasdDown = [false, false, false, false];
+
 function setup() {
   graph = new Graph();
 
-  createCanvas(windowWidth, windowHeight);
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.mouseWheel(mouseWheel);
   background(54, 55, 50);
   rectMode(CENTER);
-  graph.show();
+
+  translateVector = createVector(0, 0);
 }
 
 function windowResized() {
@@ -19,7 +26,48 @@ function windowResized() {
 }
 
 function draw() {
-  //background(54, 55, 50);
+  background(54, 55, 50);
+
+  if (wasdDown[0]) {
+    translateVector.y += 5;
+  }
+  if (wasdDown[1]) {
+    translateVector.x += 5;
+  }
+  if (wasdDown[2]) {
+    translateVector.y -= 5;
+  }
+  if (wasdDown[3]) {
+    translateVector.x -= 5;
+  }
+  //console.log(translateVector);
+  translate(translateVector.x, translateVector.y);
+  scale(zoom);
+  edge.show();
+  vertex1.show();
+  vertex2.show();
+}
+
+function keyPressed() {
+  if (key == "w") wasdDown[0] = true;
+  if (key == "a") wasdDown[1] = true;
+  if (key == "s") wasdDown[2] = true;
+  if (key == "d") wasdDown[3] = true;
+}
+
+function keyReleased() {
+  if (key == "w") wasdDown[0] = false;
+  if (key == "a") wasdDown[1] = false;
+  if (key == "s") wasdDown[2] = false;
+  if (key == "d") wasdDown[3] = false;
+}
+
+function mouseWheel(event) {
+  if (event.deltaY > 0) {
+    zoom -= 0.03;
+  } else {
+    zoom += 0.03;
+  }
 }
 
 function startDijkstraAlgorithmOnCurrentGraph() {
