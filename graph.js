@@ -54,6 +54,15 @@ function Graph() {
       vertex.show();
     });
   };
+
+  this.render = function(buffer) {
+    this.edges.forEach(edge => {
+      edge.render(buffer);
+    });
+    this.vertices.forEach(vertex => {
+      vertex.render(buffer);
+    });
+  };
 }
 
 Graph.createGraphFromTxt = function(text) {

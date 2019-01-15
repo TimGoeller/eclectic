@@ -24,4 +24,17 @@ function Edge(vertexFrom, vertexTo, weight = 0) {
     text(weight, textPos.x, textPos.y);
     */
   };
+
+  this.render = function(buffer) {
+    buffer.stroke(83, 216, 251);
+    buffer.fill("#DCE1E9");
+
+    buffer.strokeWeight(SIZE / 20);
+    buffer.line(
+      vertexFrom.position.x,
+      vertexFrom.position.y,
+      vertexTo.position.x,
+      vertexTo.position.y
+    );
+  };
 }
