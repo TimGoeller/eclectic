@@ -28,19 +28,19 @@ function windowResized() {
 
 function draw() {
   if (wasdDown[0]) {
-    translateVector.y += 5;
+    translateVector.y += 5 * (100 / frameRate());
     triggerRedraw = true;
   }
   if (wasdDown[1]) {
-    translateVector.x += 5;
+    translateVector.x += 5 * (100 / frameRate());
     triggerRedraw = true;
   }
   if (wasdDown[2]) {
-    translateVector.y -= 5;
+    translateVector.y -= 5 * (100 / frameRate());
     triggerRedraw = true;
   }
   if (wasdDown[3]) {
-    translateVector.x -= 5;
+    translateVector.x -= 5 * (100 / frameRate());
     triggerRedraw = true;
   }
 
@@ -123,8 +123,13 @@ function createGraphFromTxt(text) {
   graph.show();
 }
 
+/* Event Initialization */
+
 window.onload = function() {
   dropZone = document.getElementById("drop-zone");
+  dijkstraButton = document.getElementById("dijkstra-button");
+  astarButton = document.getElementById("dijkstra-button");
+  exportButton = document.getElementById("export-button");
 
   dropZone.addEventListener("dragover", function(event) {
     event.preventDefault();
@@ -142,5 +147,17 @@ window.onload = function() {
         createGraphFromTxt(reader.result);
       };
     }
+  });
+
+  dijkstraButton.addEventListener("click", function(event) {
+    startDijkstraAlgorithmOnCurrentGraph();
+  });
+
+  astarButton.addEventListener("click", function(event) {
+    startAStarAlgorithmOnCurrentGraph();
+  });
+
+  astarButton.addEventListener("click", function(event) {
+    exportToPNG();
   });
 };
