@@ -55,3 +55,38 @@ function Graph() {
     });
   };
 }
+
+Graph.createGraphFromTxt = function(text) {
+  let graph = new Graph();
+  let informationBlocks = text.split(";");
+  let dimensionInformation = informationBlocks[0].split(/\r?\n/);
+  dimensionInformation.pop();
+  let vertices = informationBlocks[1].split(/\r?\n/);
+  vertices.pop();
+  vertices.shift();
+  let edges = informationBlocks[2].split(/\r?\n/);
+  edges.pop();
+  edges.shift();
+
+  graphDimensions = createVector(
+    dimensionInformation[0],
+    dimensionInformation[1]
+  );
+
+  vertices.forEach(function(vertexString) {
+    let vertexInformation = vertexString.split(" ");
+    graph.addVertex(new Vertex(vertexInformation[1], vertexInformation[2]));
+  });
+
+  edges.forEach(function(edgeString) {
+    let edgeInformation = edgeString.split(" ");
+    graph.addEdge(
+      new Edge(
+        graph.getVertex(edgeInformation[1]),
+        graph.getVertex(edgeInformation[2])
+      )
+    );
+  });
+
+  return graph;
+};
