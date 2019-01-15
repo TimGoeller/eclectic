@@ -8,6 +8,8 @@ var vertex1, vertex2;
 
 var wasdDown = [false, false, false, false];
 
+var triggerRedraw = false;
+
 function setup() {
   graph = new Graph();
 
@@ -16,36 +18,40 @@ function setup() {
   background(54, 55, 50);
   rectMode(CENTER);
 
-  translateVector = createVector(0, 0);
+  translateVector = createVector(-0.1, -0.1);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background(54, 55, 50);
-  graph.show();
 }
 
 function draw() {
-  background(54, 55, 50);
-
   if (wasdDown[0]) {
     translateVector.y += 5;
+    triggerRedraw = true;
   }
   if (wasdDown[1]) {
     translateVector.x += 5;
+    triggerRedraw = true;
   }
   if (wasdDown[2]) {
     translateVector.y -= 5;
+    triggerRedraw = true;
   }
   if (wasdDown[3]) {
     translateVector.x -= 5;
+    triggerRedraw = true;
   }
-  //console.log(translateVector);
+
   translate(translateVector.x, translateVector.y);
   scale(zoom);
-  edge.show();
-  vertex1.show();
-  vertex2.show();
+
+  if (triggerRedraw) {
+    background(54, 55, 50);
+    graph.show();
+    triggerRedraw = false;
+  }
 }
 
 function keyPressed() {
@@ -68,6 +74,7 @@ function mouseWheel(event) {
   } else {
     zoom += 0.03;
   }
+  triggerRedraw = true;
 }
 
 function startDijkstraAlgorithmOnCurrentGraph() {
@@ -88,7 +95,6 @@ function createGraphFromTxt(text) {
   let dimensionInformation = informationBlocks[0].split(/\r?\n/);
   dimensionInformation.pop();
   let vertices = informationBlocks[1].split(/\r?\n/);
-  // BRY: Ich würde pop() und shift() mit slice() ersetzen
   vertices.pop();
   vertices.shift();
   let edges = informationBlocks[2].split(/\r?\n/);
