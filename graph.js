@@ -5,8 +5,8 @@ function Graph() {
   /* Vertices */
 
   this.addVertex = function(id, x, y) {
-      // BRY: Ich schlage vor, die Id zu ignorieren und mit den Objekten zu arbeiten.
-      this.vertices[ id ] = new Vertex( x, y );
+    // BRY: Ich schlage vor, die Id zu ignorieren und mit den Objekten zu arbeiten.
+    this.vertices[id] = new Vertex(x, y);
   };
 
   this.removeVertex = function(id) {};

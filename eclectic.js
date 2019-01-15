@@ -1,16 +1,24 @@
-var SIZE = 40;
+const SIZE = 40;
+var zoom = 1;
+
+var translateVector;
 
 var graph;
 var vertex1, vertex2;
 
-function setup() {
-  vertex1 = new Vertex( windowWidth/2, windowHeight/2, "2" );
-  vertex2 = new Vertex( windowWidth/4, windowHeight/4, "1" );
-  edge = new Edge( vertex1, vertex2, 2 );
+var wasdDown = [false, false, false, false];
 
-  createCanvas( windowWidth, windowHeight );
-  background( 54, 55, 50 );
-  rectMode( CENTER );
+function setup() {
+  vertex1 = new Vertex(windowWidth / 2, windowHeight / 2, "2");
+  vertex2 = new Vertex(windowWidth / 4, windowHeight / 4, "1");
+  edge = new Edge(vertex1, vertex2, 2);
+
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.mouseWheel(mouseWheel);
+  background(54, 55, 50);
+  rectMode(CENTER);
+
+  translateVector = createVector(0, 0);
 }
 
 function windowResized() {
@@ -19,24 +27,59 @@ function windowResized() {
 
 function draw() {
   background(54, 55, 50);
+
+  if (wasdDown[0]) {
+    translateVector.y += 5;
+  }
+  if (wasdDown[1]) {
+    translateVector.x += 5;
+  }
+  if (wasdDown[2]) {
+    translateVector.y -= 5;
+  }
+  if (wasdDown[3]) {
+    translateVector.x -= 5;
+  }
+  //console.log(translateVector);
+  translate(translateVector.x, translateVector.y);
+  scale(zoom);
   edge.show();
   vertex1.show();
   vertex2.show();
 }
 
-function startDijkstraAlgorithmOnCurrentGraph()
-{
-  alert( "Dijkstra!" );
+function keyPressed() {
+  if (key == "w") wasdDown[0] = true;
+  if (key == "a") wasdDown[1] = true;
+  if (key == "s") wasdDown[2] = true;
+  if (key == "d") wasdDown[3] = true;
 }
 
-function startAStarAlgorithmOnCurrentGraph()
-{
-  alert( "A Star" );
+function keyReleased() {
+  if (key == "w") wasdDown[0] = false;
+  if (key == "a") wasdDown[1] = false;
+  if (key == "s") wasdDown[2] = false;
+  if (key == "d") wasdDown[3] = false;
 }
 
-function exportToPNG()
-{
-  alert( "Save as PNG" )
+function mouseWheel(event) {
+  if (event.deltaY > 0) {
+    zoom -= 0.03;
+  } else {
+    zoom += 0.03;
+  }
+}
+
+function startDijkstraAlgorithmOnCurrentGraph() {
+  alert("Dijkstra!");
+}
+
+function startAStarAlgorithmOnCurrentGraph() {
+  alert("A Star");
+}
+
+function exportToPNG() {
+  alert("Save as PNG");
 }
 
 function createGraphFromTxt(text) {
@@ -68,11 +111,7 @@ function createGraphFromTxt(text) {
 
   edges.forEach(function(edgeString) {
     let edgeInformation = edgeString.split(" ");
-    graph.addVertex(
-      edgeInformation[0], 
-      edgeInformation[1], 
-      edgeInformation[2]
-    );
+    graph.addVertex(edgeInformation[0], edgeInformation[1], edgeInformation[2]);
   });
 }
 
