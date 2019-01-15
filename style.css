@@ -21,6 +21,10 @@ body {
 
 hr{
   margin: 10px 0 0 0;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.342);
+  border: none;
+
 }
 
 h1 {
@@ -46,7 +50,7 @@ h2 {
   width: 80px;
   background-color: rgba(102,195,255);
   z-index: 1;
-  border-radius: 3px 0 0 3px;
+  border-radius: 5px 0 0 5px;
   padding: 5px;
   overflow: hidden;
   user-select: none;
@@ -72,6 +76,7 @@ h2 {
   cursor: pointer;
   transition: all 0.1s;
   text-align: center center;
+  transition: all .1s ease-in-out;
 }
 
 #menu ul li i:hover {

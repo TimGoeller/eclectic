@@ -1,3 +1,5 @@
+var SIZE = 40;
+
 var graph;
 var vertex1, vertex2;
 
@@ -5,9 +7,10 @@ function setup() {
   vertex1 = new Vertex( windowWidth/2, windowHeight/2, "2" );
   vertex2 = new Vertex( windowWidth/4, windowHeight/4, "1" );
   edge = new Edge( vertex1, vertex2, 2 );
-  background(54, 55, 50);
-  vertex1.show();
-  createCanvas(windowWidth, windowHeight);
+
+  createCanvas( windowWidth, windowHeight );
+  background( 54, 55, 50 );
+  rectMode( CENTER );
 }
 
 function windowResized() {
@@ -21,12 +24,28 @@ function draw() {
   vertex2.show();
 }
 
+function startDijkstraAlgorithmOnCurrentGraph()
+{
+  alert( "Dijkstra!" );
+}
+
+function startAStarAlgorithmOnCurrentGraph()
+{
+  alert( "A Star" );
+}
+
+function exportToPNG()
+{
+  alert( "Save as PNG" )
+}
+
 function createGraphFromTxt(text) {
   graph = new Graph();
   let informationBlocks = text.split(";");
   let dimensionInformation = informationBlocks[0].split(/\r?\n/);
   dimensionInformation.pop();
   let vertices = informationBlocks[1].split(/\r?\n/);
+  // BRY: Ich würde pop() und shift() mit slice() ersetzen
   vertices.pop();
   vertices.shift();
   let edges = informationBlocks[2].split(/\r?\n/);

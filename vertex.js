@@ -1,5 +1,3 @@
-var SIZE = 30;
-
 function Vertex(x = 0, y = 0, value = "") {
   this.position = createVector(x, y);
 
