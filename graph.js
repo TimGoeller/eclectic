@@ -46,15 +46,6 @@ function Graph() {
 
   this.neighbours = function(vertex) {};
 
-  this.show = function() {
-    this.edges.forEach(edge => {
-      edge.show();
-    });
-    this.vertices.forEach(vertex => {
-      vertex.show();
-    });
-  };
-
   this.render = function(buffer) {
     //NO full rendering, when only one node is changed. TODO: Don't draw background, only draw that node (on top of the old one)
     this.edges.forEach(edge => {
