@@ -1,4 +1,4 @@
-const SIZE = 10;
+const SIZE = 3;
 var zoom = 1;
 
 var translateVector;
@@ -11,7 +11,9 @@ p5.disableFriendlyErrors = true;
 var graphBuffer;
 
 var swapBuffer1;
+var last1Zoom = 0;
 var swapBuffer2;
+var last2Zoom = 0;
 var lastRenderedBuffer = 1;
 var renderingOngoing = false;
 
@@ -37,8 +39,9 @@ function setup() {
   background(54, 55, 50);
   rectMode(CENTER);
 
-  swapBuffer1 = createGraphics(windowWidth, windowHeight);
-  swapBuffer2 = createGraphics(windowWidth, windowHeight);
+  //Dimension multiplication required for zooming, so Out-Of-Window context is drawn too
+  swapBuffer1 = createGraphics(windowWidth * 5, windowHeight * 5);
+  swapBuffer2 = createGraphics(windowWidth * 5, windowHeight * 5);
 
   translateVector = createVector(-0.1, -0.1);
 }
@@ -57,7 +60,8 @@ function draw() {
   });
 
   if (performRedrawNextFrame) {
-    //background(54, 55, 50);
+    background(54, 55, 50);
+    translate(translateVector.x, translateVector.y);
     if (lastRenderedBuffer == 1) {
       image(swapBuffer1, 0, 0);
     } else {
@@ -101,10 +105,11 @@ function triggerRedraw() {
 }
 
 function mouseWheel(event) {
+  //TODO: Limit zooming, improve performance (Don't rerender every time. Maybe first translate image only, then rerender in the background?)
   if (event.deltaY > 0) {
-    zoom -= 0.03;
+    zoom -= 0.06;
   } else {
-    zoom += 0.03;
+    zoom += 0.06;
   }
   triggerRedraw();
   triggerRender();
@@ -114,16 +119,23 @@ async function triggerRender() {
   if (!renderingOngoing) {
     renderingOngoing = true;
     var currentBuffer;
+    var lastTranslation;
     if (lastRenderedBuffer == 1) {
       currentBuffer = swapBuffer2;
+      currentBuffer.scale(1 / last2Zoom);
+      last2Zoom = zoom;
+      currentBuffer.scale(zoom);
       lastRenderedBuffer = 2;
     } else {
       currentBuffer = swapBuffer1;
+      currentBuffer.scale(1 / last1Zoom);
+      last1Zoom = zoom;
+      currentBuffer.scale(zoom);
       lastRenderedBuffer = 1;
     }
+
     currentBuffer.background(54, 55, 50);
-    currentBuffer.translate(translateVector.x, translateVector.y);
-    currentBuffer.scale(zoom);
+
     if (graph) {
       graph.render(currentBuffer);
     }
