@@ -3,16 +3,31 @@ function Graph() {
   this.edges = [];
 
   this.dijkstra = function() {
-    let heap = [];
-    getVertices().forEach(vertex => {
+    let graph = this;
+    let heap = new FibonacciHeap();
+    this.getVertices().forEach(vertex => {
       vertex.setDistanceToStartVertex(Infinity);
       vertex.setPredecessor(null);
-      heap.push(vertex);
+      heap.insert(0, vertex);
     });
-    let startVertex = getVertex(0);
+    let startVertex = this.getVertex(0);
+    startVertex.setHighlighted(true);
     startVertex.setDistanceToStartVertex(0);
-    while (heap.length != 0) {
-      let u = heap;
+
+    while (!heap.isEmpty()) {
+      let u = heap.extractMinimum().value;
+      console.log(u);
+      console.log(u.getNeighbours());
+      u.getNeighbours().forEach(v => {
+        let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
+        if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
+          heap.decreaseKey(v, u.distanceToStartVertex + edgeWeight);
+          v.setDistanceToStartVertex(u.distanceToStartVertex + edgeWeight);
+          v.setPredecessor(u);
+        }
+      });
+
+      heap.extractMinimum;
     }
   };
 
@@ -52,7 +67,16 @@ function Graph() {
     return this.edges[id];
   };
 
-  this.retrieveEdgeByVertices = function(vertexA, vertexB) {};
+  this.retrieveEdgeByVertices = function(vertexA, vertexB) {
+    console.log(vertexA.edges);
+    for (var c = 0; c < vertexA.edges.length; c++) {
+      if (
+        vertexA.edges[c].vertexFrom == vertexB ||
+        vertexA.edges[c].vertexTo == vertexB
+      )
+        return vertexA.edges[c];
+    }
+  };
 
   /* Requests */
 
@@ -90,7 +114,13 @@ Graph.createGraphFromTxt = function(text) {
 
   vertices.forEach(function(vertexString) {
     let vertexInformation = vertexString.split(" ");
-    graph.addVertex(new Vertex(vertexInformation[1], vertexInformation[2], vertexInformation[0]));
+    graph.addVertex(
+      new Vertex(
+        vertexInformation[1],
+        vertexInformation[2],
+        vertexInformation[0]
+      )
+    );
   });
 
   edges.forEach(function(edgeString) {
