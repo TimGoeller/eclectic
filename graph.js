@@ -93,6 +93,36 @@ function Graph() {
       vertex.render(buffer);
     });
   };
+
+  this.astar = function() {
+    var startVertex = Math.floor(Math.random() * this.vertices.length); 
+    var destinationVertex = Math.floor(Math.random() * this.vertices.length); 
+
+    var openlist = new FibonacciHeap();
+    var closedList = [];
+
+    startVertex.distanceToStartVertex = 0;
+
+    openlist.insert(0, startVertex);
+
+    while(!openlist.isEmpty()) {
+      var u = openlist.extractMinimum()
+      if(u == destinationVertex) {
+        //GEFUNDEN! YAY
+      }
+      closedList.add(u);
+      
+    }
+  }
+
+  this.expandNode = function(closedList, openList, u) {
+    u.getNeighbours().forEach(function(neighbour) {
+      if(closedList.contains(neighbour)) {
+        return;
+      }
+      //var g = u.distanceToStartVertex + u.
+    })
+  }
 }
 
 Graph.createGraphFromTxt = function(text) {
