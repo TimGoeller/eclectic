@@ -10,6 +10,12 @@ function Vertex(x = 0, y = 0, value = "") {
     this.highlighted = isHighlighted;
   };
 
+  this.edges = [];
+
+  this.addEdge = function(edge) {
+    this.edges.push(edge);
+  };
+
   this.render = function(buffer) {
     buffer.stroke(83, 216, 251);
     if (this.highlighted) buffer.stroke("#E83562");

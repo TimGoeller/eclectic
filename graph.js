@@ -81,12 +81,13 @@ Graph.createGraphFromTxt = function(text) {
 
   edges.forEach(function(edgeString) {
     let edgeInformation = edgeString.split(" ");
-    graph.addEdge(
-      new Edge(
-        graph.getVertex(edgeInformation[1]),
-        graph.getVertex(edgeInformation[2])
-      )
+    let newEdge = new Edge(
+      graph.getVertex(edgeInformation[1]),
+      graph.getVertex(edgeInformation[2])
     );
+    graph.addEdge(newEdge);
+    graph.getVertex(edgeInformation[1]).addEdge(newEdge);
+    graph.getVertex(edgeInformation[2]).addEdge(newEdge);
   });
 
   return graph;
