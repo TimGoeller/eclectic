@@ -2,6 +2,20 @@ function Graph() {
   this.vertices = [];
   this.edges = [];
 
+  this.dijkstra = function() {
+    let heap = [];
+    getVertices().forEach(vertex => {
+      vertex.setDistanceToStartVertex(Infinity);
+      vertex.setPredecessor(null);
+      heap.push(vertex);
+    });
+    let startVertex = getVertex(0);
+    startVertex.setDistanceToStartVertex(0);
+    while (heap.length != 0) {
+      let u = heap;
+    }
+  };
+
   /* Vertices */
 
   this.addVertex = function(vertex) {

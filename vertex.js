@@ -60,4 +60,8 @@ function Vertex(x = 0, y = 0, value = "") {
   this.setDistanceToStartVertex = function(distance) {
     this.distanceToStartVertex = distance;
   };
+
+  this.setPredecessor = function(predecessor) {
+    this.predecessor = predecessor;
+  };
 }
