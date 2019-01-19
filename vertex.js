@@ -1,4 +1,5 @@
 function Vertex(x = 0, y = 0, value = "") {
+  this.distanceToStartVertex = Infinity;
   this.position = createVector(x, y);
 
   this.render = function(buffer) {
@@ -15,5 +16,9 @@ function Vertex(x = 0, y = 0, value = "") {
     buffer.textSize(SIZE / 2);
     buffer.textAlign(CENTER, CENTER);
     buffer.text(value, this.position.x, this.position.y + SIZE / 20);
+  };
+
+  this.setDistanceToStartVertex = function(distance) {
+    this.distanceToStartVertex = distance;
   };
 }
