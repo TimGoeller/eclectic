@@ -1,40 +1,51 @@
-function Edge(vertexFrom, vertexTo, weight = 0) {
-  this.show = function() {
-    stroke(83, 216, 251);
-    fill("#DCE1E9");
+function Edge(vertexFrom, vertexTo) {
+  this.highlighted = false;
 
-    strokeWeight(SIZE / 20);
-    line(
-      vertexFrom.position.x,
-      vertexFrom.position.y,
-      vertexTo.position.x,
-      vertexTo.position.y
-    );
-
-    /* Text with value
-    fill("#66C3FF");
-    strokeWeight(0);
-    textSize(SIZE / 2);
-    textAlign(CENTER, CENTER);
-
-    var textPos = {
-      x: (vertexFrom.position.x - vertexTo.position.x) * 1.5 + SIZE / 4,
-      y: (vertexFrom.position.y - vertexTo.position.y) * 1.5 - SIZE / 4
-    };
-    text(weight, textPos.x, textPos.y);
-    */
+  this.setHighlighted = function(isHighlighted) {
+    this.highlighted = isHighlighted;
   };
+
+  this.weight = Math.round(
+    Math.sqrt(
+      Math.pow(
+        parseFloat(vertexFrom.position.x) - parseFloat(vertexTo.position.x),
+        2
+      ) +
+        Math.pow(
+          parseFloat(vertexFrom.position.y) - parseFloat(vertexTo.position.y),
+          2
+        )
+    )
+  );
+
+  let textPos = {
+    x:
+      parseFloat(vertexFrom.position.x) +
+      (parseFloat(vertexTo.position.x) - parseFloat(vertexFrom.position.x)) / 2,
+    y:
+      parseFloat(vertexFrom.position.y) +
+      (parseFloat(vertexTo.position.y) - parseFloat(vertexFrom.position.y)) / 2
+  };
+  let textSize = SIZE / 2;
+  let strokeWeight = SIZE / 20;
 
   this.render = function(buffer) {
     buffer.stroke(83, 216, 251);
+    if (this.highlighted) buffer.stroke("#E83562");
     buffer.fill("#DCE1E9");
 
-    buffer.strokeWeight(SIZE / 20);
+    buffer.strokeWeight(strokeWeight);
     buffer.line(
       vertexFrom.position.x,
       vertexFrom.position.y,
       vertexTo.position.x,
       vertexTo.position.y
     );
+
+    buffer.fill("#66C3FF");
+    buffer.strokeWeight(0);
+    buffer.textSize(textSize);
+    buffer.textAlign(CENTER, CENTER);
+    buffer.text(this.weight, textPos.x, textPos.y);
   };
 }
