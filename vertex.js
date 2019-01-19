@@ -4,6 +4,7 @@ function Vertex(x = 0, y = 0, value = "") {
   // Properties only relevant for algorithms
   this.distanceToStartVertex = Infinity;
   this.predecessor = null;
+  this.value = value;
 
   this.highlighted = false;
   this.setHighlighted = function(isHighlighted) {
@@ -15,6 +16,24 @@ function Vertex(x = 0, y = 0, value = "") {
   this.addEdge = function(edge) {
     this.edges.push(edge);
   };
+
+  this.getNeighbours = function() {
+
+    var neighbours = [];
+    var context = this;
+
+    this.edges.forEach(function(edge) {
+      
+      if(edge.vertexFrom == context) {       
+        neighbours.push(edge.vertexTo)
+      }
+      else {
+        neighbours.push(edge.vertexFrom)
+      }
+      
+    })
+    return neighbours;
+  }
 
   this.render = function(buffer) {
     buffer.stroke(83, 216, 251);
