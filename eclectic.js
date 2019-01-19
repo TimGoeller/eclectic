@@ -163,7 +163,7 @@ function exportToPNG() {
 window.onload = function() {
   dropZone = document.getElementById("drop-zone");
   dijkstraButton = document.getElementById("dijkstra-button");
-  astarButton = document.getElementById("dijkstra-button");
+  astarButton = document.getElementById("astar-button");
   exportButton = document.getElementById("export-button");
 
   dropZone.addEventListener("dragover", function(event) {
@@ -194,7 +194,7 @@ window.onload = function() {
     startAStarAlgorithmOnCurrentGraph();
   });
 
-  astarButton.addEventListener("click", function(event) {
+  exportButton.addEventListener("click", function(event) {
     exportToPNG();
   });
 };
