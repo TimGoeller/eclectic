@@ -5,6 +5,9 @@ function Edge(vertexFrom, vertexTo) {
     this.highlighted = isHighlighted;
   };
 
+  this.vertexFrom = vertexFrom;
+  this.vertexTo = vertexTo;
+
   this.weight = Math.round(
     Math.sqrt(
       Math.pow(
