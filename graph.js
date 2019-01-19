@@ -76,7 +76,7 @@ Graph.createGraphFromTxt = function(text) {
 
   vertices.forEach(function(vertexString) {
     let vertexInformation = vertexString.split(" ");
-    graph.addVertex(new Vertex(vertexInformation[1], vertexInformation[2]));
+    graph.addVertex(new Vertex(vertexInformation[1], vertexInformation[2], vertexInformation[0]));
   });
 
   edges.forEach(function(edgeString) {
