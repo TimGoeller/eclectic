@@ -172,6 +172,38 @@ FibonacciHeap.prototype.compare = function (a, b) {
   return 0;
 };
 
+FibonacciHeap.prototype.contains = function(value) {
+
+  if(this.minNode) {
+    var it = new NodeListIterator(this.minNode);
+
+    while (it.hasNext()) {
+      var current = it.next();
+      if(current.value == value) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+}
+
+FibonacciHeap.prototype.findByValue = function(value) {
+
+  if(this.minNode) {
+    var it = new NodeListIterator(this.minNode);
+
+    while (it.hasNext()) {
+      var current = it.next();
+      if(current.value == value) {
+        return current;
+      }
+    }
+    return false;
+  }
+  
+}
+
 /**
  * Creates an Iterator used to simplify the consolidate() method. It works by
  * making a shallow copy of the nodes in the root list and iterating over the
@@ -292,6 +324,8 @@ function consolidate(minNode, compare) {
   }
   return minNode;
 }
+
+
 
 /**
  * Removes a node from a node list.
