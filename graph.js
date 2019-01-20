@@ -2,32 +2,64 @@ function Graph() {
   this.vertices = [];
   this.edges = [];
 
-  this.dijkstra = function() {
+  this.showShortestPath = function( goalVertex ){
+    let currentVertex = goalVertex;
+    currentVertex.setPathHighlighted(true);
+    do {     
+      this.retrieveEdgeByVertices( currentVertex, currentVertex.predecessor ).setPathHighlighted( true );
+      currentVertex = currentVertex.predecessor;
+      currentVertex.setPathHighlighted(true);
+    } while (currentVertex.predecessor != null);
+    
+    triggerRender();
+  }
+
+  this.dijkstra = async function() {
+    console.log( "Dijkstra algorithm started." )
     let graph = this;
-    let heap = new FibonacciHeap();
-    this.getVertices().forEach(vertex => {
-      vertex.setDistanceToStartVertex(Infinity);
-      vertex.setPredecessor(null);
-      heap.insert(0, vertex);
-    });
-    let startVertex = this.getVertex(0);
+    let startVertex = this.getVertex(6);
+    let destinationVertex = this.getVertex(0);
     startVertex.setHighlighted(true);
     startVertex.setDistanceToStartVertex(0);
+    //triggerRender();
+
+    let heap = new FibonacciHeap();
+    this.getVertices().forEach(vertex => {
+      if (vertex != startVertex) {
+        vertex.setDistanceToStartVertex(Infinity);
+        vertex.setPredecessor(null);
+      }
+      heap.insert(vertex.distanceToStartVertex, vertex);
+    });
 
     while (!heap.isEmpty()) {
       let u = heap.extractMinimum().value;
-      console.log(u);
-      console.log(u.getNeighbours());
-      u.getNeighbours().forEach(v => {
-        let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
-        if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
-          heap.decreaseKey(v, u.distanceToStartVertex + edgeWeight);
-          v.setDistanceToStartVertex(u.distanceToStartVertex + edgeWeight);
-          v.setPredecessor(u);
+      if( u == destinationVertex ){
+        this.showShortestPath(destinationVertex);
+        return;
+      }
+    
+      u.setHighlighted(true);
+      /*triggerRender();
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("done!"), 1)
+      });
+      await promise;*/
+
+      u.getNeighbours().forEach(function(v) {  
+        if(heap.contains(v)) {
+          let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
+          graph.retrieveEdgeByVertices(u, v).setHighlighted(true);
+          //v.setHighlighted(true);
+          //triggerRender();
+          if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
+              v.setPredecessor(u);
+              v.setDistanceToStartVertex( parseFloat(u.distanceToStartVertex + edgeWeight) );
+              //triggerRender();
+              heap.decreaseKey(heap.findByValue(v), parseFloat(u.distanceToStartVertex + edgeWeight));
+          }
         }
       });
-
-      heap.extractMinimum;
     }
   };
 
@@ -68,7 +100,6 @@ function Graph() {
   };
 
   this.retrieveEdgeByVertices = function(vertexA, vertexB) {
-    console.log(vertexA.edges);
     for (var c = 0; c < vertexA.edges.length; c++) {
       if (
         vertexA.edges[c].vertexFrom == vertexB ||
@@ -95,8 +126,8 @@ function Graph() {
   };
 
   this.astar = function() {
-    var startVertex = Math.floor(Math.random() * this.vertices.length); 
-    var destinationVertex = Math.floor(Math.random() * this.vertices.length); 
+    var startVertex = Math.floor(Math.random() * this.vertices.length);
+    var destinationVertex = Math.floor(Math.random() * this.vertices.length);
 
     var openlist = new FibonacciHeap();
     var closedList = [];
@@ -105,23 +136,26 @@ function Graph() {
 
     openlist.insert(0, startVertex);
 
-    while(!openlist.isEmpty()) {
-      var u = openlist.extractMinimum()
-      if(u == destinationVertex) {
+    while (!openlist.isEmpty()) {
+      var u = openlist.extractMinimum();
+      if (u == destinationVertex) {
         //GEFUNDEN! YAY
       }
       closedList.add(u);
-      
     }
-  }
+  };
 
   this.expandNode = function(closedList, openList, u) {
     u.getNeighbours().forEach(function(neighbour) {
-      if(closedList.contains(neighbour)) {
+      if (closedList.contains(neighbour)) {
         return;
       }
       //var g = u.distanceToStartVertex + u.
-    })
+    });
+  };
+  //
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 

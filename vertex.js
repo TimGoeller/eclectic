@@ -10,6 +10,11 @@ function Vertex(x = 0, y = 0, value = "") {
   this.setHighlighted = function(isHighlighted) {
     this.highlighted = isHighlighted;
   };
+  
+  this.pathHighlighted = false;
+  this.setPathHighlighted = function(isPathHighlighted) {
+    this.pathHighlighted = isPathHighlighted;
+  };
 
   this.edges = [];
 
@@ -18,28 +23,27 @@ function Vertex(x = 0, y = 0, value = "") {
   };
 
   this.getNeighbours = function() {
-
     var neighbours = [];
     var context = this;
 
     this.edges.forEach(function(edge) {
-      
-      if(edge.vertexFrom == context) {       
-        neighbours.push(edge.vertexTo)
+      if (edge.vertexFrom == context) {
+        neighbours.push(edge.vertexTo);
+      } else {
+        neighbours.push(edge.vertexFrom);
       }
-      else {
-        neighbours.push(edge.vertexFrom)
-      }
-      
-    })
+    });
     return neighbours;
-  }
+  };
 
   this.render = function(buffer) {
     buffer.stroke(83, 216, 251);
     if (this.highlighted) buffer.stroke("#E83562");
+    if (this.pathHighlighted) buffer.fill("#20c611");
+    
     buffer.fill("#DCE1E9");
     if (this.highlighted) buffer.fill("#E83562");
+    if (this.pathHighlighted) buffer.fill("#20c611");
 
     buffer.strokeWeight(SIZE / 10);
     buffer.ellipse(this.position.x, this.position.y, SIZE);
@@ -47,14 +51,26 @@ function Vertex(x = 0, y = 0, value = "") {
     /* Text with value */
     buffer.fill("#1C3646");
     if (this.highlighted) buffer.fill("#FFFFFF");
+    if (this.pathHighlighted) buffer.fill("#FFFFFF");
     buffer.strokeWeight(0);
     buffer.textSize(SIZE / 2);
     buffer.textAlign(CENTER, CENTER);
-    buffer.text(
-      value,
-      this.position.x,
-      parseFloat(this.position.y) + SIZE / 20
-    );
+    if( this.distanceToStartVertex == Infinity )
+    {
+      buffer.text(
+        "∞",
+        this.position.x,
+        parseFloat(this.position.y) + SIZE / 20
+      );
+    }
+    else
+    {
+      buffer.text(
+        this.distanceToStartVertex,
+        this.position.x,
+        parseFloat(this.position.y) + SIZE / 20
+      );
+    }
   };
 
   this.setDistanceToStartVertex = function(distance) {

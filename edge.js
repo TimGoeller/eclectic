@@ -5,6 +5,11 @@ function Edge(vertexFrom, vertexTo) {
     this.highlighted = isHighlighted;
   };
 
+  this.pathHighlighted = false;
+  this.setPathHighlighted = function(isPathHighlighted) {
+    this.pathHighlighted = isPathHighlighted;
+  };
+
   this.vertexFrom = vertexFrom;
   this.vertexTo = vertexTo;
 
@@ -33,8 +38,10 @@ function Edge(vertexFrom, vertexTo) {
   let strokeWeight = SIZE / 20;
 
   this.render = function(buffer) {
+    
     buffer.stroke(83, 216, 251);
     if (this.highlighted) buffer.stroke("#E83562");
+    if (this.pathHighlighted) buffer.stroke("#20c611");
     buffer.fill("#DCE1E9");
 
     buffer.strokeWeight(strokeWeight);
