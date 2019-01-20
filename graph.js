@@ -21,7 +21,7 @@ function Graph() {
     let destinationVertex = this.getVertex(15);
     startVertex.setHighlighted(true);
     startVertex.setDistanceToStartVertex(0);
-    //triggerRender();
+    triggerRender();
 
     let heap = new FibonacciHeap();
     this.getVertices().forEach(vertex => {
@@ -40,22 +40,22 @@ function Graph() {
       }
     
       u.setHighlighted(true);
-      /*triggerRender();
+      triggerRender();
       let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve("done!"), 1)
+        setTimeout(() => resolve("done!"), 1000)
       });
-      await promise;*/
+      await promise;
 
       u.getNeighbours().forEach(function(v) {  
         if(heap.contains(v)) {
           let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
           graph.retrieveEdgeByVertices(u, v).setHighlighted(true);
-          //v.setHighlighted(true);
-          //triggerRender();
+          v.setHighlighted(true);
+          triggerRender();
           if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
               v.setPredecessor(u);
               v.setDistanceToStartVertex( parseFloat(u.distanceToStartVertex + edgeWeight) );
-              //triggerRender();
+              triggerRender();
               heap.decreaseKey(heap.findByValue(v), parseFloat(u.distanceToStartVertex + edgeWeight));
           }
         }
@@ -134,7 +134,7 @@ function Graph() {
   }
 
 
-  this.astar =  function() {
+  this.astar = async function() {
     console.log( "A* algorithm started." )
     var startVertex = this.vertices[0]; 
     var destinationVertex = this.vertices[15]; 
@@ -152,12 +152,12 @@ function Graph() {
 
       currentNode.setHighlighted(true)
       
-
-      /*let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve("done!"), 100)
+      triggerRender()
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("done!"), 1000)
       });
     
-      let result = await promise; */
+      let result = await promise; 
       
      
       
@@ -190,6 +190,9 @@ function Graph() {
       }
 
       var tentative_g = currentNode.distanceToStartVertex + context.retrieveEdgeByVertices(currentNode, neighbour).weight
+
+      context.retrieveEdgeByVertices(currentNode, neighbour).setHighlighted(true);
+      triggerRender();
       
       if(openList.contains(neighbour) && tentative_g >= neighbour.distanceToStartVertex) {
         return
@@ -198,14 +201,9 @@ function Graph() {
       neighbour.setPredecessor(currentNode)
       neighbour.setDistanceToStartVertex(tentative_g)
       //neighbour.value = tentative_g
-      console.log(heuristic[context.vertices.indexOf(neighbour)]);
       var f = tentative_g + heuristic[context.vertices.indexOf(neighbour)];
       
       if(openList.contains(neighbour)) {
-        // BRY:
-        console.log(openList.findByValue(neighbour).value)
-        console.log(f)
-
         openList.decreaseKey(openList.findByValue(neighbour), f)
       }
       else {
