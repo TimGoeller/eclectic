@@ -1,4 +1,4 @@
-const SIZE = 5;
+const SIZE = 10;
 var zoom = 1;
 
 var translateVector;
