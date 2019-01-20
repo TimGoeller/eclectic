@@ -2,32 +2,64 @@ function Graph() {
   this.vertices = [];
   this.edges = [];
 
-  this.dijkstra = function() {
+  this.showShortestPath = function( goalVertex ){
+    let currentVertex = goalVertex;
+    currentVertex.setPathHighlighted(true);
+    do {     
+      this.retrieveEdgeByVertices( currentVertex, currentVertex.predecessor ).setPathHighlighted( true );
+      currentVertex = currentVertex.predecessor;
+      currentVertex.setPathHighlighted(true);
+    } while (currentVertex.predecessor != null);
+    
+    triggerRender();
+  }
+
+  this.dijkstra = async function() {
+    console.log( "Dijkstra algorithm started." )
     let graph = this;
-    let heap = new FibonacciHeap();
-    this.getVertices().forEach(vertex => {
-      vertex.setDistanceToStartVertex(Infinity);
-      vertex.setPredecessor(null);
-      heap.insert(0, vertex);
-    });
-    let startVertex = this.getVertex(0);
+    let startVertex = this.getVertex(6);
+    let destinationVertex = this.getVertex(0);
     startVertex.setHighlighted(true);
     startVertex.setDistanceToStartVertex(0);
+    //triggerRender();
+
+    let heap = new FibonacciHeap();
+    this.getVertices().forEach(vertex => {
+      if (vertex != startVertex) {
+        vertex.setDistanceToStartVertex(Infinity);
+        vertex.setPredecessor(null);
+      }
+      heap.insert(vertex.distanceToStartVertex, vertex);
+    });
 
     while (!heap.isEmpty()) {
       let u = heap.extractMinimum().value;
-      console.log(u);
-      console.log(u.getNeighbours());
-      u.getNeighbours().forEach(v => {
-        let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
-        if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
-          heap.decreaseKey(v, u.distanceToStartVertex + edgeWeight);
-          v.setDistanceToStartVertex(u.distanceToStartVertex + edgeWeight);
-          v.setPredecessor(u);
+      if( u == destinationVertex ){
+        this.showShortestPath(destinationVertex);
+        return;
+      }
+    
+      u.setHighlighted(true);
+      /*triggerRender();
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("done!"), 1)
+      });
+      await promise;*/
+
+      u.getNeighbours().forEach(function(v) {  
+        if(heap.contains(v)) {
+          let edgeWeight = graph.retrieveEdgeByVertices(u, v).weight;
+          graph.retrieveEdgeByVertices(u, v).setHighlighted(true);
+          //v.setHighlighted(true);
+          //triggerRender();
+          if (v.distanceToStartVertex > u.distanceToStartVertex + edgeWeight) {
+              v.setPredecessor(u);
+              v.setDistanceToStartVertex( parseFloat(u.distanceToStartVertex + edgeWeight) );
+              //triggerRender();
+              heap.decreaseKey(heap.findByValue(v), parseFloat(u.distanceToStartVertex + edgeWeight));
+          }
         }
       });
-
-      heap.extractMinimum;
     }
   };
 
@@ -101,60 +133,6 @@ function Graph() {
     return beeline
   }
 
-  /*
-  this.astar = function() {
-    var startVertex = this.vertices[Math.floor(Math.random() * this.vertices.length)]; 
-    var heuristic = this.heuristicFor(startVertex)
-    var destinationVertex = this.vertices[Math.floor(Math.random() * this.vertices.length)]; 
-
-    var openList = new FibonacciHeap();
-    var closedList = [];
-
-    startVertex.distanceToStartVertex = 0;
-
-    openList.insert(startVertex.distanceToStartVertex, startVertex);
-
-    while(!openList.isEmpty()) {
-      var u = openList.extractMinimum().value
-      if(u == destinationVertex) {
-        //GEFUNDEN! YAY
-        console.log(closedList);
-        console.log(openList);
-      }
-      closedList.push(u);
-      this.expandNode(closedList, openList, u, heuristic)
-    }
-  }
-
-  this.expandNode = function(closedList, openList, u, heuristic) {
-
-    var context = this;
-
-    u.getNeighbours().forEach(function(neighbour) {
-      if(closedList.includes(neighbour)) {
-        return;
-      }
-      var g = u.distanceToStartVertex + context.retrieveEdgeByVertices(u, neighbour).weight
-      if(openList.contains(neighbour) && g >= neighbour.distanceToStartVertex) {
-        return;
-      }
-      neighbour.setPredecessor(u);
-      neighbour.setDistanceToStartVertex(g);
-      var f = g + heuristic[context.vertices.indexOf(neighbour)];
-      if(openList.contains(neighbour)) {
-        console.log("Dec Key")
-        console.log(f)
-        console.log(openList.findByValue(neighbour).key)
-        openList.decreaseKey(openList.findByValue(neighbour), f)
-      }
-      else {
-        console.log("Insert")
-        console.log(f)
-        openList.insert(f,neighbour)
-      }
-
-    })
-  }*/
 
   this.astar =  function() {
     var startVertex = this.vertices[3086]; 

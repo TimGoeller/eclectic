@@ -147,7 +147,7 @@ async function triggerRender() {
 function triggerRenderForBuffer(buffer) {}
 
 function startDijkstraAlgorithmOnCurrentGraph() {
-  alert("Dijkstra!");
+  graph.dijkstra();
 }
 
 function startAStarAlgorithmOnCurrentGraph() {
