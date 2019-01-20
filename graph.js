@@ -135,10 +135,10 @@ function Graph() {
 
 
   this.astar =  function() {
+    console.log( "A* algorithm started." )
     var startVertex = this.vertices[0]; 
-    var heuristic = this.heuristicFor(startVertex)
-    console.log(heuristic)
     var destinationVertex = this.vertices[15]; 
+    var heuristic = this.heuristicFor(destinationVertex)
 
     var openList = new FibonacciHeap();
     var closedList = [];
@@ -149,7 +149,6 @@ function Graph() {
 
     while(!openList.isEmpty()) { 
       var currentNode = openList.extractMinimum().value
-      console.log(currentNode)
 
       currentNode.setHighlighted(true)
       
@@ -160,12 +159,13 @@ function Graph() {
     
       let result = await promise; */
       
-      triggerRender()
+     
       
       if(currentNode == destinationVertex) {
         console.log("GEFUNDEN")
         console.log(openList);
         console.log(closedList)
+        this.showShortestPath( destinationVertex );
         return;
       }
 
@@ -175,6 +175,7 @@ function Graph() {
       this.expandNode(currentNode, closedList, openList, heuristic)
       
     }
+    triggerRender()
     
     
   }
@@ -194,12 +195,10 @@ function Graph() {
         return
       }
 
-      console.log("TEST")
-
       neighbour.setPredecessor(currentNode)
       neighbour.setDistanceToStartVertex(tentative_g)
       //neighbour.value = tentative_g
-
+      console.log(heuristic[context.vertices.indexOf(neighbour)]);
       var f = tentative_g + heuristic[context.vertices.indexOf(neighbour)];
       
       if(openList.contains(neighbour)) {
