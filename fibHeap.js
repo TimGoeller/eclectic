@@ -174,33 +174,62 @@ FibonacciHeap.prototype.compare = function (a, b) {
 
 FibonacciHeap.prototype.contains = function(value) {
 
-  if(this.minNode) {
-    var it = new NodeListIterator(this.minNode);
-
-    while (it.hasNext()) {
+  var itNode = function(node) {
+    var it = new NodeListIterator(node);
+    var found = false
+    while (it.hasNext()) { 
       var current = it.next();
-      if(current.value == value) {
-        return true;
+      
+      if(current.child) {
+        found = itNode(current.child)
+      }
+
+      if(!found) {
+        if(current.value == value) {
+          return true
+        }
+      }
+      else {
+        return true
       }
     }
-    return false;
+    return false
   }
-  
+
+  if(this.minNode) {
+    return itNode(this.minNode)
+  }
+  return false
 }
 
 FibonacciHeap.prototype.findByValue = function(value) {
 
-  if(this.minNode) {
-    var it = new NodeListIterator(this.minNode);
-
-    while (it.hasNext()) {
+  var itNode = function(node) {
+    var it = new NodeListIterator(node);
+    var found = null
+    while (it.hasNext()) { 
       var current = it.next();
-      if(current.value == value) {
-        return current;
+      
+      if(current.child) {
+        found = itNode(current.child)
+      }
+
+      if(!found) {
+        if(current.value == value) {
+          return current
+        }
+      }
+      else {
+        return found
       }
     }
-    return false;
+    return null
   }
+
+  if(this.minNode) {
+    return itNode(this.minNode)
+  }
+  return null
   
 }
 
