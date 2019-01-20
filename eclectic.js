@@ -1,4 +1,4 @@
-const SIZE = 3;
+const SIZE = 5;
 var zoom = 1;
 
 var translateVector;
@@ -151,7 +151,7 @@ function startDijkstraAlgorithmOnCurrentGraph() {
 }
 
 function startAStarAlgorithmOnCurrentGraph() {
-  alert("A Star");
+  graph.astar();
 }
 
 function exportToPNG() {

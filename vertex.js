@@ -13,6 +13,11 @@ function Vertex(x = 0, y = 0, value = "") {
 
   this.edges = [];
 
+  this.getBeelineTo = function(vertex) {
+    return Math.round(
+      Math.sqrt(Math.pow(parseFloat(this.position.x) - parseFloat(vertex.position.x), 2) + Math.pow(parseFloat(this.position.y) - parseFloat(vertex.position.y),2)));
+  }
+
   this.addEdge = function(edge) {
     this.edges.push(edge);
   };
@@ -51,7 +56,7 @@ function Vertex(x = 0, y = 0, value = "") {
     buffer.textSize(SIZE / 2);
     buffer.textAlign(CENTER, CENTER);
     buffer.text(
-      value,
+      this.value,
       this.position.x,
       parseFloat(this.position.y) + SIZE / 20
     );

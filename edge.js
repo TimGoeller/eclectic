@@ -9,16 +9,7 @@ function Edge(vertexFrom, vertexTo) {
   this.vertexTo = vertexTo;
 
   this.weight = Math.round(
-    Math.sqrt(
-      Math.pow(
-        parseFloat(vertexFrom.position.x) - parseFloat(vertexTo.position.x),
-        2
-      ) +
-        Math.pow(
-          parseFloat(vertexFrom.position.y) - parseFloat(vertexTo.position.y),
-          2
-        )
-    )
+    Math.sqrt(Math.pow(parseFloat(vertexFrom.position.x) - parseFloat(vertexTo.position.x),2) + Math.pow(parseFloat(vertexFrom.position.y) - parseFloat(vertexTo.position.y),2))
   );
 
   let textPos = {
