@@ -125,37 +125,94 @@ function Graph() {
     });
   };
 
-  this.astar = function() {
-    var startVertex = Math.floor(Math.random() * this.vertices.length);
-    var destinationVertex = Math.floor(Math.random() * this.vertices.length);
+  this.heuristicFor = function(startVertex) {
+    beeline = [];
+    this.vertices.forEach(function(vertex) {
+      beeline.push(vertex.getBeelineTo(startVertex))
+    })
+    return beeline
+  }
 
-    var openlist = new FibonacciHeap();
+
+  this.astar =  function() {
+    var startVertex = this.vertices[3086]; 
+    var heuristic = this.heuristicFor(startVertex)
+    console.log(heuristic)
+    var destinationVertex = this.vertices[3206]; 
+
+    var openList = new FibonacciHeap();
     var closedList = [];
 
     startVertex.distanceToStartVertex = 0;
 
-    openlist.insert(0, startVertex);
+    openList.insert(0, startVertex);
 
-    while (!openlist.isEmpty()) {
-      var u = openlist.extractMinimum();
-      if (u == destinationVertex) {
-        //GEFUNDEN! YAY
-      }
-      closedList.add(u);
-    }
-  };
+    while(!openList.isEmpty()) { 
+      var currentNode = openList.extractMinimum().value
+      console.log(currentNode)
 
-  this.expandNode = function(closedList, openList, u) {
-    u.getNeighbours().forEach(function(neighbour) {
-      if (closedList.contains(neighbour)) {
+      currentNode.setHighlighted(true)
+      
+
+      /*let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("done!"), 100)
+      });
+    
+      let result = await promise; */
+      
+      triggerRender()
+      
+      if(currentNode == destinationVertex) {
+        console.log("GEFUNDEN")
+        console.log(openList);
+        console.log(closedList)
         return;
       }
-      //var g = u.distanceToStartVertex + u.
+
+      //console.log(openList.minNode)
+
+      closedList.push(currentNode)
+      this.expandNode(currentNode, closedList, openList, heuristic)
+      
+    }
+    
+    
+  }
+
+  this.expandNode = function(currentNode, closedList, openList, heuristic) {
+
+    var context = this;
+
+    currentNode.getNeighbours().forEach(neighbour => {
+      if(closedList.includes(neighbour)) {
+        return
+      }
+
+      var tentative_g = currentNode.distanceToStartVertex + context.retrieveEdgeByVertices(currentNode, neighbour).weight
+      
+      if(openList.contains(neighbour) && tentative_g >= neighbour.distanceToStartVertex) {
+        return
+      }
+
+      console.log("TEST")
+
+      neighbour.setPredecessor(currentNode)
+      neighbour.setDistanceToStartVertex(tentative_g)
+      //neighbour.value = tentative_g
+
+      var f = tentative_g + heuristic[context.vertices.indexOf(neighbour)];
+      
+      if(openList.contains(neighbour)) {
+        // BRY:
+        console.log(openList.findByValue(neighbour).value)
+        console.log(f)
+
+        openList.decreaseKey(openList.findByValue(neighbour), f)
+      }
+      else {
+        openList.insert(f,neighbour)
+      }
     });
-  };
-  //
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
 

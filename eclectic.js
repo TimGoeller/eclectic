@@ -151,7 +151,7 @@ function startDijkstraAlgorithmOnCurrentGraph() {
 }
 
 function startAStarAlgorithmOnCurrentGraph() {
-  alert("A Star");
+  graph.astar();
 }
 
 function exportToPNG() {
