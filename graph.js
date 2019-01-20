@@ -17,8 +17,8 @@ function Graph() {
   this.dijkstra = async function() {
     console.log( "Dijkstra algorithm started." )
     let graph = this;
-    let startVertex = this.getVertex(6);
-    let destinationVertex = this.getVertex(0);
+    let startVertex = this.getVertex(0);
+    let destinationVertex = this.getVertex(15);
     startVertex.setHighlighted(true);
     startVertex.setDistanceToStartVertex(0);
     //triggerRender();
@@ -135,10 +135,10 @@ function Graph() {
 
 
   this.astar =  function() {
-    var startVertex = this.vertices[3086]; 
+    var startVertex = this.vertices[0]; 
     var heuristic = this.heuristicFor(startVertex)
     console.log(heuristic)
-    var destinationVertex = this.vertices[3206]; 
+    var destinationVertex = this.vertices[15]; 
 
     var openList = new FibonacciHeap();
     var closedList = [];
