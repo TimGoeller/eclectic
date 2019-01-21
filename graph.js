@@ -154,7 +154,7 @@ function Graph() {
       
       triggerRender()
       let promise = new Promise((resolve, reject) => {
-        setTimeout(() => resolve("done!"), 1000)
+        setTimeout(() => resolve("done!"), 500)
       });
     
       let result = await promise; 
@@ -231,6 +231,7 @@ Graph.createGraphFromTxt = function(text) {
   );
 
   vertices.forEach(function(vertexString) {
+    console.log( vertexString );
     let vertexInformation = vertexString.split(" ");
     graph.addVertex(
       new Vertex(
@@ -242,6 +243,7 @@ Graph.createGraphFromTxt = function(text) {
   });
 
   edges.forEach(function(edgeString) {
+    console.log( edgeString );
     let edgeInformation = edgeString.split(" ");
     let newEdge = new Edge(
       graph.getVertex(edgeInformation[1]),
